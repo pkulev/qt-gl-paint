@@ -8,15 +8,18 @@
 #include <cmath>
 #include <QDebug>
 
-using Object = QList<QPair<GLint,GLint> >;
+using Point = QPair<GLint,GLint>;
+using Object = QList<Point>;
+
 
 class DrawTool
 {
 
 public:
-    //DrawTool() {};
     virtual void startDrawing(GLint x, GLint y) {}
-    virtual void stopDrawing(GLint x, GLint y) {}
+    virtual void update(GLint x, GLint y) {}
+    virtual Object stopDrawing(GLint x, GLint y) {}
+    virtual void drawTemporary() {}
     ~DrawTool() {}
 };
 
@@ -25,13 +28,15 @@ class Pencil: public DrawTool
 {
 private:
     QColor color;
-    bool drawing;
+    Object temp;
 
 public:
     Pencil();
     ~Pencil() {}
     void startDrawing(GLint x, GLint y);
-    void stopDrawing(GLint x, GLint y);
+    void update(GLint x, GLint y);
+    Object stopDrawing(GLint x, GLint y);
+    void drawTemporary();
 };
 
 
@@ -54,9 +59,6 @@ public:
     void resizeGL(int w, int h);
     void initializeGL();
     void paintGL();
-
-public slots:
-    void drawCircle(GLint rad, GLint x, GLint y);
 };
 
 

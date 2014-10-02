@@ -3,16 +3,34 @@
 Pencil::Pencil()
     : DrawTool()
     {
-    color = QColor(255, 255, 255);
-    drawing = false;
+    color = QColor(255, 0, 0);
 }
 
 void Pencil::startDrawing(GLint x, GLint y) {
-
+    qDebug() << "Drawing with pencil";
+    this->temp.clear();
+    this->temp.append(Point(x, y));
 }
 
-void Pencil::stopDrawing(GLint x, GLint y) {
+void Pencil::update(GLint x, GLint y) {
+    this->temp.append(Point(x, y));
+}
 
+Object Pencil::stopDrawing(GLint x, GLint y) {
+    //Add temporary object into oglwidget's list
+    this->temp.append(Point(x, y));
+    qDebug() << "Stop drawing";
+    return temp;
+}
+
+void Pencil::drawTemporary()
+{
+    glColor3f(color.red(), color.green(), color.blue());
+    glBegin(GL_LINE_LOOP);
+    for (auto &dot: temp) {
+        glVertex2f(dot.first, dot.second);
+    }
+    glEnd();
 }
 
 
@@ -21,9 +39,9 @@ OGLWidget::OGLWidget(QWidget *parent=NULL) :
 {
     currentTool = new Pencil();
     Object obj;
-    obj.append(QPair<GLint,GLint>(10, 10));
-    obj.append(QPair<GLint,GLint>(50, 100));
-    obj.append(QPair<GLint,GLint>(150, 50));
+    obj.append(Point(10, 10));
+    obj.append(Point(50, 100));
+    obj.append(Point(150, 50));
     objects.append(obj);
 }
 
@@ -41,17 +59,20 @@ void OGLWidget::mousePressEvent(QMouseEvent *event)
 
 void OGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    GLint x = event->x();
+    GLint y = event->y();
     GLint dx = event->x() - lastPos.x();
     GLint dy = event->y() - lastPos.y();
 
     lastPos = event->pos();
-    qDebug() << dx << "; " << dy;
+    this->currentTool->update(x, y);
+    qDebug() << x << "; " << y;
 }
 
 void OGLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->buttons() & Qt::LeftButton) {
-        currentTool->stopDrawing(event->x(), event->y());
+    if (event->button() & Qt::LeftButton) {
+        this->objects.append(currentTool->stopDrawing(event->x(), event->y()));
     }
 }
 
@@ -94,17 +115,18 @@ void OGLWidget::paintGL()
             glVertex2f(dot.first, dot.second);
         }
         glEnd();
+        currentTool->drawTemporary();
     }
 }
 
 
-void OGLWidget::drawCircle(GLint rad, GLint x, GLint y)
-{
-    Object obj;
-    for (int i = 0; i <= 50; i++) {
-        GLint cur_x = x + rad*cos(2*M_PI / 50 * i);
-        GLint cur_y = y + rad*sin(2*M_PI / 50 * i);
-        obj.append(QPair<GLint,GLint>(cur_x, cur_y));
-    }
-    objects.append(obj);
-}
+//void OGLWidget::drawCircle(GLint rad, GLint x, GLint y)
+//{
+//    Object obj;
+//    for (int i = 0; i <= 50; i++) {
+//        GLint cur_x = x + rad*cos(2*M_PI / 50 * i);
+//        GLint cur_y = y + rad*sin(2*M_PI / 50 * i);
+//        obj.append(Point(cur_x, cur_y));
+//    }
+//    objects.append(obj);
+//}
