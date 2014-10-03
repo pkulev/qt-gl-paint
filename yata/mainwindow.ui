@@ -92,6 +92,14 @@
      </attribute>
     </widget>
     <widget class="QWidget" name="p_circle">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>73</width>
+       <height>66</height>
+      </rect>
+     </property>
      <attribute name="label">
       <string>Circle</string>
      </attribute>
@@ -107,6 +115,19 @@
      <height>27</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionClear_All"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -117,13 +138,21 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionClear_All">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Clear All</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>OGLWidget</class>
    <extends>QWidget</extends>
-   <header>oglwidget.h</header>
+   <header>oglwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

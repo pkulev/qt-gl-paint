@@ -1,37 +1,6 @@
-#include "oglwidget.h"
+#include "oglwidget.hpp"
 
-Pencil::Pencil()
-    : DrawTool()
-    {
-    color = QColor(255, 0, 0);
-}
 
-void Pencil::startDrawing(GLint x, GLint y) {
-    qDebug() << "Drawing with pencil";
-    this->temp.clear();
-    this->temp.append(Point(x, y));
-}
-
-void Pencil::update(GLint x, GLint y) {
-    this->temp.append(Point(x, y));
-}
-
-Object Pencil::stopDrawing(GLint x, GLint y) {
-    //Add temporary object into oglwidget's list
-    this->temp.append(Point(x, y));
-    qDebug() << "Stop drawing";
-    return temp;
-}
-
-void Pencil::drawTemporary()
-{
-    glColor3f(color.red(), color.green(), color.blue());
-    glBegin(GL_LINE_LOOP);
-    for (auto &dot: temp) {
-        glVertex2f(dot.first, dot.second);
-    }
-    glEnd();
-}
 
 
 OGLWidget::OGLWidget(QWidget *parent=NULL) :
@@ -66,7 +35,7 @@ void OGLWidget::mouseMoveEvent(QMouseEvent *event)
 
     lastPos = event->pos();
     this->currentTool->update(x, y);
-    qDebug() << x << "; " << y;
+    qDebug() << x << "; " << y << "  [" << dx << "; " << dy << "]";
 }
 
 void OGLWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -117,6 +86,12 @@ void OGLWidget::paintGL()
         glEnd();
         currentTool->drawTemporary();
     }
+}
+
+void OGLWidget::clearAll()
+{
+    this->objects.clear();
+    this->bgcolor = QColor(255, 255, 255);
 }
 
 

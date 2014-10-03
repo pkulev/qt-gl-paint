@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include "oglwidget.h"
+#include "oglwidget.hpp"
 
 
 namespace Ui {

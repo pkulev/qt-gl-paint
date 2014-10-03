@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->pb_exit, SIGNAL(clicked()), this, SLOT(close()));
     connect(&timer, SIGNAL(timeout()), ui->glview, SLOT(updateGL()));
+    connect(ui->actionClear_All, SIGNAL(triggered()), ui->glview, SLOT(clearAll()));
 
     timer.start(50);
 }

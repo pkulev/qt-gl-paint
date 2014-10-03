@@ -14,10 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    oglwidget.cpp
+    oglwidget.cpp \
+    drawtools.cpp
 
-HEADERS  += mainwindow.h \
-    oglwidget.h \
-    common.hpp
+HEADERS  += \
+    common.hpp \
+    drawtools.hpp \
+    oglwidget.hpp \
+    mainwindow.hpp
 
 FORMS    += mainwindow.ui
