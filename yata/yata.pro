@@ -17,6 +17,7 @@ SOURCES += main.cpp\
     oglwidget.cpp
 
 HEADERS  += mainwindow.h \
-    oglwidget.h
+    oglwidget.h \
+    common.hpp
 
 FORMS    += mainwindow.ui

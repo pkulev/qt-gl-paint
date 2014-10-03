@@ -8,8 +8,7 @@
 #include <cmath>
 #include <QDebug>
 
-using Point = QPair<GLint,GLint>;
-using Object = QList<Point>;
+#include "common.hpp"
 
 
 class DrawTool
