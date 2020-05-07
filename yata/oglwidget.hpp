@@ -1,7 +1,6 @@
-#ifndef OGLWIDGET_H
-#define OGLWIDGET_H
+#pragma once
 
-#include <QtOpenGL/QGLWidget>
+#include <QOpenGLWidget>
 #include <QMouseEvent>
 #include <QList>
 #include <cmath>
@@ -10,7 +9,7 @@
 #include "common.hpp"
 #include "drawtools.hpp"
 
-class OGLWidget : public QGLWidget
+class OGLWidget : public QOpenGLWidget
 {
     Q_OBJECT
 
@@ -29,10 +28,8 @@ public slots:
     void clearAll();
 public:
     OGLWidget(QWidget *parent);
+    ~OGLWidget();
     void resizeGL(int w, int h);
     void initializeGL();
     void paintGL();
 };
-
-
-#endif // OGLWIDGET_H

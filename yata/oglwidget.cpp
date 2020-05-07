@@ -1,17 +1,20 @@
 #include "oglwidget.hpp"
 
 
-
-
 OGLWidget::OGLWidget(QWidget *parent=NULL) :
-    QGLWidget(parent)
+    QOpenGLWidget(parent),
+    currentTool(new Pencil())
 {
-    currentTool = new Pencil();
     Object obj;
     obj.append(Point(10, 10));
     obj.append(Point(50, 100));
     obj.append(Point(150, 50));
     objects.append(obj);
+}
+
+OGLWidget::~OGLWidget()
+{
+    delete currentTool;
 }
 
 
